@@ -1,22 +1,24 @@
 import { Request, Response } from 'express';
 import { getItems } from '../src/controllers/ItemController';
-import { items } from '../src/models/Item';
+import { PrismaClient } from '../generated/prisma/client';
+
+jest.mock('../generated/prisma/client', () => {
+    return {
+        PrismaClient: jest.fn().mockImplementation(() => ({
+            item: {
+                findMany: jest.fn().mockResolvedValue([]),
+            },
+        })),
+    };
+});
 
 describe('Item Controller', () => {
-    it('should return an empty array when no items exist', () => {
-        // Create mock objects for Request, Response, and NextFunction
+    it('should return an empty array when no items exist', async () => {
         const req = {} as Request;
-        const res = {
-            json: jest.fn(),
-        } as unknown as Response;
+        const res = { json: jest.fn() } as unknown as Response;
+        const next = jest.fn();
 
-        // Ensure that our in-memory store is empty
-        items.length = 0;
-
-        // Execute our controller function
-        getItems(req, res, jest.fn());
-
-        // Expect that res.json was called with an empty array
+        await getItems(req, res, next);
         expect(res.json).toHaveBeenCalledWith([]);
     });
 });

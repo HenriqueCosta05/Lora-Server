@@ -10,12 +10,16 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
     "lint": "eslint 'src/**/*.ts'",
     "test": "jest",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate",
     "test:watch": "jest --watch"
   },
   "devDependencies": {
+    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/client": "^7.1.0",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
+    "@types/pg": "^8.15.6",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.1",
     "express": "^5.2.1",
@@ -23,7 +27,9 @@
     "jest": "^30.2.0",
     "nodemon": "^3.1.11",
     "npm": "^11.6.4",
+    "pg": "^8.16.3",
     "prettier": "^3.7.4",
+    "prisma": "^7.1.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
